@@ -13,7 +13,6 @@ const HERO_STATS = [
   { value: "500+", label: "Members" },
   { value: "4+", label: "Expert Trainers" },
   { value: "10 Yrs", label: "Experience" },
-  { value: "5:30 am - 10pm", label: "Open" },
 ];
 
 const FEATURES = [
@@ -320,8 +319,8 @@ export default function App() {
       <section id="home" style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1920&h=1080&fit=crop&auto=format')",
-          backgroundSize: "cover", backgroundPosition: "center 30%",
+          backgroundImage: "url('/membership/page_1.1.png')",
+          backgroundSize: "contain", backgroundPosition: "right center", backgroundRepeat: "no-repeat",
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(120deg, rgba(13,13,13,.97) 0%, rgba(13,13,13,.78) 55%, rgba(234,10,26,.12) 100%)" }} />
 
@@ -358,13 +357,13 @@ export default function App() {
 
           {/* Stats bar */}
           <div className="hero-stats" style={{
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px",
-            background: "rgba(255,255,255,.07)", borderRadius: "14px", overflow: "hidden", maxWidth: "640px",
+            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1px",
+            background: "rgba(255,255,255,.07)", borderRadius: "14px", overflow: "hidden", maxWidth: "440px",
           }}>
             {HERO_STATS.map((s, i) => (
-              <div key={i} style={{ padding: "22px 16px", background: "rgba(13,13,13,.82)", backdropFilter: "blur(10px)", textAlign: "center" }}>
-                <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: "26px", color: "#EA0A1A" }}>{s.value}</div>
-                <div style={{ color: "rgba(255,255,255,.45)", fontSize: "11px", marginTop: "3px", fontWeight: 500, letterSpacing: ".4px" }}>{s.label}</div>
+              <div key={i} style={{ padding: "16px 8px", background: "rgba(13,13,13,.82)", backdropFilter: "blur(10px)", textAlign: "center" }}>
+                <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: s.value.length > 6 ? "16px" : "22px", color: "#EA0A1A", lineHeight: 1.2, wordBreak: "break-word" }}>{s.value}</div>
+                <div style={{ color: "rgba(255,255,255,.45)", fontSize: "10px", marginTop: "3px", fontWeight: 500, letterSpacing: ".4px" }}>{s.label}</div>
               </div>
             ))}
           </div>
