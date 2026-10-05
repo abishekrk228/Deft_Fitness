@@ -33,22 +33,28 @@ const PROGRAMS = [
 
 const PLANS = [
   {
-    name: "Basic", price: 29, tag: null, highlighted: false,
-    features: ["Full Gym Access", "Locker & Shower", "Free WiFi", "Cardio Zone", "Mobile App"],
+    name: "1 Month", price: 3000, tag: null, highlighted: false, featured: false,
+    features: ["Full Gym Access", "Biometric", "Shoe Rack", "Cardio Zone"],
   },
   {
-    name: "Standard", price: 59, tag: "Most Popular", highlighted: false,
-    features: ["Everything in Basic", "Personal Trainer (2×/wk)", "Custom Diet Plan", "All Group Classes", "Towel Service", "Body Composition Scan"],
+    name: "2 Month", price: 6000, tag: "Most Popular", highlighted: false, featured: false,
+    features: ["Full Gym Access", "Biometric", "Shoe Rack", "Cardio Zone"],
   },
   {
-    name: "Premium", price: 99, tag: "Best Value", highlighted: true,
-    features: ["Everything in Standard", "Unlimited Classes", "Supplements Guidance", "Priority Support 24/7", "Guest Passes (2/month)", "Recovery & Sauna Room", "Personalized Macros"],
+    name: "6 Month", price: 9000, tag: "Most Popular", highlighted: false, featured: true,
+    features: ["Full Gym Access", "Biometric", "Shoe Rack", "Cardio Zone"],
+  },
+  {
+    name: "12 Month", price: 12000, tag: "Best Value", highlighted: true, featured: false,
+    features: ["Full Gym Access", "Biometric", "Shoe Rack", "Cardio Zone"],
   },
 ];
 
 const TRAINERS = [
-  { name: "Kotti", specialty: "Owner & Head Trainer", img: "/trainers/kotti.jpg" },
-  { name: "Sathish", specialty: "Chief Trainer", img: "/trainers/sathish.jpg" },
+  { name: 'Trainer 1', specialty: 'Expert Trainer', img: '/trainers/trainer1.jpg', position: 'top' },
+  { name: 'Trainer 2', specialty: 'Expert Trainer', img: '/trainers/trainer2.jpg', position: 'top' },
+  { name: 'Trainer 3', specialty: 'Expert Trainer', img: '/trainers/trainer3.jpg', position: '50% 10%' },
+  { name: 'Trainer 4', specialty: 'Expert Trainer', img: '/trainers/trainer4.jpg', position: '50% 15%' },
 ];
 
 const GALLERY = [
@@ -58,6 +64,16 @@ const GALLERY = [
   "/gallery/img6.webp",
   "/gallery/img3.webp",
   "/gallery/img5.webp",
+];
+
+const MEMBERSHIP_IMAGES = [
+  "/membership/page_02.png",
+  "/membership/page_03.png",
+  "/membership/page_04.png",
+  "/membership/page_05.png",
+  "/membership/page_06.png",
+  "/membership/page_07.png",
+  "/membership/page_08.png",
 ];
 
 const TESTIMONIALS = [
@@ -77,7 +93,7 @@ const TESTIMONIALS = [
 
 const ACHIEVEMENTS = [
   { target: 500, suffix: "+", label: "Active Members" },
-  { target: 3, suffix: "+", label: "Expert Trainers" },
+  { target: 4, suffix: "+", label: "Expert Trainers" },
   { target: 10, suffix: "+", label: "Awards Won" },
   { target: 100, suffix: "%", label: "Success Rate" },
 ];
@@ -108,6 +124,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeTesti, setActiveTesti] = useState(0);
   const [countersOn, setCountersOn] = useState(false);
+  const [lightbox, setLightbox] = useState<string | null>(null);
   const achievRef = useRef<HTMLDivElement>(null);
 
   // Sticky nav
@@ -140,6 +157,15 @@ export default function App() {
     const id = setInterval(() => setActiveTesti(p => (p + 1) % TESTIMONIALS.length), 6000);
     return () => clearInterval(id);
   }, []);
+
+  // Lightbox: Escape to close + lock body scroll
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
+  }, [lightbox]);
 
 
   return (
@@ -205,6 +231,8 @@ export default function App() {
         .plan-card.plain{border:1px solid rgba(255,255,255,.08)}
         .plan-card.plain:hover{transform:translateY(-6px);border-color:rgba(234,10,26,.4)!important}
         .plan-card.hot{background:linear-gradient(140deg,#EA0A1A 0%,#B0121A 100%);transform:scale(1.04);box-shadow:0 32px 80px rgba(234,10,26,.4)}
+        .plan-card.featured{transform:scale(1.02)}
+        .plan-card.featured:hover{transform:scale(1.02) translateY(-6px)}
 
         .soc-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;flex-shrink:0}
         .soc-icon:hover{background:#EA0A1A}
@@ -219,6 +247,7 @@ export default function App() {
         @media(max-width:1100px){
           .feat-grid{grid-template-columns:repeat(2,1fr)!important}
           .trainer-grid{grid-template-columns:repeat(2,1fr)!important}
+          .plan-grid{grid-template-columns:repeat(2,1fr)!important}
           .footer-grid{grid-template-columns:repeat(2,1fr)!important}
         }
         @media(max-width:900px){
@@ -227,6 +256,8 @@ export default function App() {
           .about-grid{grid-template-columns:1fr!important}
           .prog-grid{grid-template-columns:repeat(2,1fr)!important}
           .plan-grid{grid-template-columns:1fr!important}
+          .plan-card.featured{transform:none}
+          .plan-card.featured:hover{transform:translateY(-6px)}
           .plan-card.hot{transform:none}
           .contact-grid{grid-template-columns:1fr!important}
           .gal-grid{grid-template-columns:repeat(2,1fr)!important}
@@ -483,9 +514,9 @@ export default function App() {
             No contracts, no hidden fees. Upgrade, pause, or cancel anytime.
           </p>
         </div>
-        <div className="plan-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "22px", alignItems: "center" }}>
+        <div className="plan-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "22px", alignItems: "center" }}>
           {PLANS.map((plan, i) => (
-            <div key={i} className={`plan-card fz ${plan.highlighted ? "hot" : "plain glass"}`}>
+            <div key={i} className={`plan-card fz ${plan.highlighted ? "hot" : "plain glass"} ${plan.featured ? "featured" : ""}`}>
               {plan.tag && (
                 <div style={{
                   display: "inline-block",
@@ -496,8 +527,7 @@ export default function App() {
               )}
               <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "20px", marginBottom: "6px" }}>{plan.name}</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "28px" }}>
-                <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: "52px", lineHeight: 1 }}>${plan.price}</span>
-                <span style={{ color: plan.highlighted ? "rgba(255,255,255,.65)" : "rgba(255,255,255,.38)", fontSize: "14px" }}>/ month</span>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: plan.featured ? "56px" : "52px", lineHeight: 1 }}>${plan.price}</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "13px", marginBottom: "34px" }}>
                 {plan.features.map(f => (
@@ -519,7 +549,30 @@ export default function App() {
             </div>
           ))}
         </div>
+
+        {/* Membership images */}
+        <div className="fz" style={{ display: "flex", flexWrap: "wrap", gap: "22px", justifyContent: "center", marginTop: "180px" }}>
+          {MEMBERSHIP_IMAGES.map((src, i) => (
+            <div key={i} className="gal-item" style={{ width: "calc(25% - 17px)", cursor: "zoom-in" }} onClick={() => setLightbox(src)}>
+              <img src={src} alt={`DEFY FITNESS membership ${i + 1}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
       </section>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div onClick={() => setLightbox(null)} style={{
+          position: "fixed", inset: 0, zIndex: 9999,
+          background: "rgba(0,0,0,.92)", backdropFilter: "blur(8px)",
+          display: "flex", alignItems: "center", justifyContent: "center", cursor: "zoom-out", padding: "40px",
+        }}>
+          <img src={lightbox} alt="DEFY FITNESS membership enlarged" style={{
+            maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "8px",
+            boxShadow: "0 30px 80px rgba(0,0,0,.6)", cursor: "zoom-out",
+          }} onClick={(e) => { e.stopPropagation(); setLightbox(null); }} />
+        </div>
+      )}
 
       {/* ══════════════════════════════════════════════════════════ TRAINERS */}
       <section id="trainers" className="sec-pad" style={{
@@ -536,16 +589,7 @@ export default function App() {
           <div className="trainer-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "30px", maxWidth: "1000px", margin: "0 auto" }}>
             {TRAINERS.map((t, i) => (
               <div key={i} className="trainer-card fz">
-                <img src={t.img} alt={t.name} style={{ height: "540px" }} />
-                <div className="t-over">
-                  <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "17px", marginBottom: "3px" }}>{t.name}</div>
-                  <div style={{ color: "#EA0A1A", fontSize: "13px", fontWeight: 600, marginBottom: "12px" }}>{t.specialty}</div>
-                   {!["Kotti", "Sathish"].includes(t.name) && <div style={{ display: "flex", gap: "8px" }}>
-                    {[Instagram, Twitter, Facebook].map((Icon, j) => (
-                      <div key={j} className="soc-icon"><Icon size={13} color="#fff" /></div>
-                    ))}
-                  </div>}
-                </div>
+                <img src={t.img} alt={t.name} style={{ height: "420px", objectPosition: t.position || "top" }} />
               </div>
             ))}
           </div>
