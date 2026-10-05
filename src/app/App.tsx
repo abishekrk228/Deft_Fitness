@@ -527,7 +527,7 @@ export default function App() {
               )}
               <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "20px", marginBottom: "6px" }}>{plan.name}</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "28px" }}>
-                <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: plan.featured ? "56px" : "52px", lineHeight: 1 }}>${plan.price}</span>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: plan.featured ? "56px" : "52px", lineHeight: 1 }}>₹{plan.price}</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "13px", marginBottom: "34px" }}>
                 {plan.features.map(f => (
