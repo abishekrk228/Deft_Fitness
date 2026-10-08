@@ -24,10 +24,10 @@ const FEATURES = [
 
 const PROGRAMS = [
   { name: "Weight Training", desc: "Build raw strength and muscle mass through progressive overload techniques.", img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop&auto=format" },
-  { name: "Cardio Fitness", desc: "Boost endurance and torch calories with our high-energy cardio sessions.", img: "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=600&h=400&fit=crop&auto=format" },
+  { name: "Powerlifting", desc: "Powerlifting builds maximum full-body strength through compound movements.", img: "/programs/powerlifting.jpg" },
   { name: "CrossFit", desc: "Functional movements at high intensity for total-body conditioning.", img: "https://images.unsplash.com/photo-1533681904393-9ab6eee7e408?w=600&h=400&fit=crop&auto=format" },
   { name: "Zumba", desc: "Improve flexibility, reduce stress, and build a stronger mind-body connection.", img: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&h=400&fit=crop&auto=format" },
-  { name: "Bodybuilding", desc: "Sculpt and define every muscle group with structured hypertrophy protocols.", img: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=400&fit=crop&auto=format" },
+  { name: "Bodybuilding(contest prep)", desc: "Sculpt and define every muscle group with structured hypertrophy protocols.", img: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=400&fit=crop&auto=format" },
   { name: "Personal Training", desc: "One-on-one coaching tailored exclusively to your fitness level and goals.", img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&auto=format" },
 ];
 
@@ -51,8 +51,8 @@ const PLANS = [
 ];
 
 const TRAINERS = [
-  { name: 'Trainer 1', specialty: 'Expert Trainer', img: '/trainers/trainer1.jpg', position: 'top' },
   { name: 'Trainer 2', specialty: 'Expert Trainer', img: '/trainers/trainer2.jpg', position: 'top' },
+  { name: 'Trainer 1', specialty: 'Expert Trainer', img: '/trainers/trainer1.jpg', position: 'top' },
   { name: 'Trainer 3', specialty: 'Expert Trainer', img: '/trainers/trainer3.jpg', position: '50% 10%' },
   { name: 'Trainer 4', specialty: 'Expert Trainer', img: '/trainers/trainer4.jpg', position: '50% 15%' },
 ];
@@ -66,15 +66,7 @@ const GALLERY = [
   "/gallery/img5.webp",
 ];
 
-const MEMBERSHIP_IMAGES = [
-  "/membership/page_02.png",
-  "/membership/page_03.png",
-  "/membership/page_04.png",
-  "/membership/page_05.png",
-  "/membership/page_06.png",
-  "/membership/page_07.png",
-  "/membership/page_08.png",
-];
+
 
 const TESTIMONIALS = [
   {
@@ -126,6 +118,11 @@ export default function App() {
   const [countersOn, setCountersOn] = useState(false);
   const [lightbox, setLightbox] = useState<string | null>(null);
   const achievRef = useRef<HTMLDivElement>(null);
+
+  const handleWhatsAppClick = () => {
+    const text = encodeURIComponent("Hi! I would like to know more about DEFY FITNESS memberships and programs.");
+    window.open(`https://wa.me/919159191590?text=${text}`, '_blank');
+  };
 
   // Sticky nav
   useEffect(() => {
@@ -318,7 +315,7 @@ export default function App() {
         </div>
 
         <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
-          <button className="red-btn" style={{ padding: "10px 22px", fontSize: "13px" }}>Join Now</button>
+          <button className="red-btn" style={{ padding: "10px 22px", fontSize: "13px" }} onClick={handleWhatsAppClick}>Join Now</button>
           <button className="ham" onClick={() => setMobileOpen(true)}
             style={{ display: "none", background: "none", border: "none", color: "#fff", cursor: "pointer", padding: "4px" }}>
             <Menu size={24} />
@@ -342,7 +339,7 @@ export default function App() {
               {l}
             </a>
           ))}
-          <button className="red-btn" style={{ marginTop: "12px" }}>Join Now</button>
+          <button className="red-btn" style={{ marginTop: "12px" }} onClick={handleWhatsAppClick}>Join Now</button>
         </div>
       )}
 
@@ -380,7 +377,7 @@ export default function App() {
           </p>
 
           <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "72px" }}>
-            <button className="red-btn">
+            <button className="red-btn" onClick={handleWhatsAppClick}>
               Join Now <ArrowRight size={15} style={{ display: "inline", marginLeft: "8px", verticalAlign: "middle" }} />
             </button>
             {/* <button className="ghost-btn">Free Trial</button> */}
@@ -529,7 +526,7 @@ export default function App() {
               <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "28px" }}>
                 <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: plan.featured ? "56px" : "52px", lineHeight: 1 }}>₹{plan.price}</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "13px", marginBottom: "34px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "13px" }}>
                 {plan.features.map(f => (
                   <div key={f} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                     <Check size={15} color={plan.highlighted ? "#fff" : "#EA0A1A"} style={{ flexShrink: 0, marginTop: "2px" }} />
@@ -537,27 +534,11 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <button style={{
-                width: "100%", padding: "14px",
-                background: plan.highlighted ? "#fff" : "#EA0A1A",
-                color: plan.highlighted ? "#EA0A1A" : "#fff",
-                border: "none", borderRadius: "50px",
-                fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "15px",
-                cursor: "pointer", transition: "all .3s",
-                boxShadow: plan.highlighted ? "0 8px 30px rgba(0,0,0,.25)" : "0 8px 30px rgba(234,10,26,.3)",
-              }}>Join Now</button>
             </div>
           ))}
         </div>
 
-        {/* Membership images */}
-        <div className="fz" style={{ display: "flex", flexWrap: "wrap", gap: "22px", justifyContent: "center", marginTop: "180px" }}>
-          {MEMBERSHIP_IMAGES.map((src, i) => (
-            <div key={i} className="gal-item" style={{ width: "calc(25% - 17px)", cursor: "zoom-in" }} onClick={() => setLightbox(src)}>
-              <img src={src} alt={`DEFY FITNESS membership ${i + 1}`} loading="lazy" />
-            </div>
-          ))}
-        </div>
+
       </section>
 
       {/* Lightbox */}
